@@ -19,8 +19,8 @@ SHELL = [
     ('lxqt-panel', ['/usr/bin/lxqt-panel']),
     ('pcmanfm-qt', ['/usr/bin/pcmanfm-qt', '--desktop', '--profile=lxqt']),
     ('lxqt-runner', ['/usr/bin/lxqt-runner']),
-    ('lxqt-powermana', ['/usr/bin/lxqt-powermanagement']),
-    ('lxqt-policykit-', ['/usr/bin/lxqt-policykit-agent']),
+    ('lxqt-powermanagement', ['/usr/bin/lxqt-powermanagement']),
+    ('lxqt-policykit-agent', ['/usr/bin/lxqt-policykit-agent']),
 ]
 
 
@@ -65,7 +65,7 @@ def main():
 
 def run(args, game, runtime, state):
     stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S-%f')
-    session = (args.session_root or state/'sessions')/stamp
+    session = (args.session_root or state/'sessions').resolve()/stamp
     session.mkdir(parents=True, exist_ok=False)
     project = session/'project'
     project.mkdir()
@@ -124,7 +124,7 @@ def run(args, game, runtime, state):
             old_handlers[signum] = signal.signal(signum, request_stop)
         if not args.keep_shell:
             for comm, command in SHELL:
-                found = subprocess.run(['pgrep', '-u', str(os.getuid()), '-x', comm],
+                found = subprocess.run(['pgrep', '-u', str(os.getuid()), '-x', comm[:15]],
                     stdout=subprocess.PIPE, text=True, check=False)
                 pids = [int(p) for p in found.stdout.split()]
                 if pids:
