@@ -56,4 +56,6 @@ python3 scripts/play.py /path/to/legal-game \
 
 轻量诊断：`scripts/sample-process.py PID --output reports/process.json`；嵌入式内核缺少 IO 计数时输出空值。可使用交叉 C 编译器构建 `tools/sample-ip.c`，在目标板以适当权限运行 `sample-ip PID 20 reports/ips.txt`。这些输出包含运行信息，应留在被忽略的 reports 目录。
 
+Mali 独立 EGL/GLES2 像素探针：`tools/mali-context-probe.c`。DirectFB/hard-float 与 softfp 控制组的实际结果和限制见硬件调查文档；本仓库不提供厂商库或探针运行包。
+
 本项目为实验性移植，不提供游戏资源，也不保证所有游戏兼容。许可证及上游归属见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md)。
