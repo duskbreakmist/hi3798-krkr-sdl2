@@ -45,6 +45,8 @@ TDE does not automatically cover arbitrary blur, affine transforms, special blen
 
 Avoid assuming that private Mali DMA-BUF import requires a DRM display node. Conversely, successful NV21 texture import does not prove that shared RGBA FBO output or export back to Xorg works. The existing slow full-frame GPU readback implementation is unsuitable without a different measured transfer path.
 
+A [community newer-kernel port](https://github.com/loonpn/ec6108v9c-linux-kernel/releases/tag/v6.14.3) exists for the same chip family. Its release author lists L1/L2 cache, HDMI/GPU and audio-output problems. These are upstream statements, not tests of that image on this board. It is therefore a research starting point, not a ready-made accelerated desktop replacement; no claim that such ports do not exist is intended.
+
 ## Corrections to common assumptions
 
 - `-gclim` is a graphics-cache limit in MiB, not the TJS garbage-collection threshold.
