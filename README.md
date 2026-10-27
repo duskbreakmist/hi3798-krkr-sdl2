@@ -49,6 +49,7 @@ python3 scripts/play.py /path/to/legal-game \
 
 - [非对齐故障定位和修复](docs/alignment.md)
 - [性能调查与可验证的优化方向](docs/performance.md)
+- [硬件加速调查：armhf TDE 离屏验证](docs/hardware-acceleration.md)
 - [公开内容及隐私策略](docs/publication.md)
 
 回归构建：设置与引擎一致的 `KRKR_WORK` / `CXX` 后运行 `python3 scripts/build-alignment-test.py`。两个 ARM 程序写入本地 work 目录。
