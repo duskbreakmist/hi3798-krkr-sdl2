@@ -23,11 +23,16 @@ def snapshot(pid):
             threads[task.name] = stat(task/'stat')['cpu']
         except FileNotFoundError:
             pass
+    try:
+        io = numbers(proc/'io')
+    except FileNotFoundError:
+        # CONFIG_TASK_IO_ACCOUNTING is optional on embedded kernels.
+        io = {}
     return {'time': time.monotonic(), 'process': stat(proc/'stat'),
         'status': {k:v for k,v in numbers(proc/'status').items() if k in ('VmRSS','VmSwap','Threads')},
         'memory': {k:v for k,v in numbers('/proc/meminfo').items() if k in ('MemAvailable','SwapFree','CmaFree')},
         'vm': {k:v for k,v in numbers('/proc/vmstat').items() if k in ('pswpin','pswpout','pgmajfault')},
-        'io': numbers(proc/'io'), 'threads': threads}
+        'io': io, 'threads': threads}
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
@@ -52,8 +57,8 @@ def main():
             'available_kib':now['memory'].get('MemAvailable'),
             'swap_in_pages':now['vm']['pswpin']-previous['vm']['pswpin'],
             'swap_out_pages':now['vm']['pswpout']-previous['vm']['pswpout'],
-            'read_bytes':now['io']['read_bytes']-previous['io']['read_bytes'],
-            'write_bytes':now['io']['write_bytes']-previous['io']['write_bytes'],
+            'read_bytes':(now['io']['read_bytes']-previous['io']['read_bytes']) if 'read_bytes' in now['io'] else None,
+            'write_bytes':(now['io']['write_bytes']-previous['io']['write_bytes']) if 'write_bytes' in now['io'] else None,
             'thread_cpu_percent': {tid:round((ticks-previous['threads'].get(tid,ticks))/hz/dt*100,1)
                 for tid,ticks in now['threads'].items()}}
         rows.append(row)

@@ -51,4 +51,8 @@ python3 scripts/play.py /path/to/legal-game \
 - [性能调查与可验证的优化方向](docs/performance.md)
 - [公开内容及隐私策略](docs/publication.md)
 
+回归构建：设置与引擎一致的 `KRKR_WORK` / `CXX` 后运行 `python3 scripts/build-alignment-test.py`。两个 ARM 程序写入本地 work 目录。
+
+轻量诊断：`scripts/sample-process.py PID --output reports/process.json`；嵌入式内核缺少 IO 计数时输出空值。可使用交叉 C 编译器构建 `tools/sample-ip.c`，在目标板以适当权限运行 `sample-ip PID 20 reports/ips.txt`。这些输出包含运行信息，应留在被忽略的 reports 目录。
+
 本项目为实验性移植，不提供游戏资源，也不保证所有游戏兼容。许可证及上游归属见 [LICENSE](LICENSE) 与 [NOTICE.md](NOTICE.md)。
